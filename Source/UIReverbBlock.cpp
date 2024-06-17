@@ -83,6 +83,7 @@ namespace reverb
         DBG(wetRatio.getComponentID());
         
         //a bad function call when it's the correct name???
+        //fixed by updating depricated methods
         
         //runs with incorrect name, but of course hits jassert
         irLengthAttachment.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(processor.parameters,

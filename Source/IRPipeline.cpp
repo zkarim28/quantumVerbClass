@@ -36,6 +36,7 @@ namespace reverb
         gain = std::make_shared<Gain>(processor);
         preDelay = std::make_shared<PreDelay>(processor);
     }
+    IRPipeline::~IRPipeline(){};
 
     /**
      * @brief Updates parameters from processor parameter tree

@@ -24,6 +24,10 @@ Convolution::Convolution(juce::AudioProcessor* processor)
 {
 }
 
+Convolution::~Convolution(){
+    
+}
+
 //==============================================================================
 /**
  * @brief No parameters to update, do nothing
@@ -63,35 +67,37 @@ AudioBlock Convolution::exec(AudioBlock audio)
  *
  * @param [in] ir    The IR signal to convolve with the audio buffer.
  */
-void Convolution::loadIR(AudioBlock ir)
-{
-    juce::dsp::ProcessSpec spec;
-    spec.sampleRate = processor->getSampleRate();
-    
-    // If the block size is small, the overlap-add method requires a small amount of RAM
-    // at the expense of increasing computational load. If the block size is large, the
-    // overlap-add method is more efficient computationally, at the expense of the memory
-    // required. It is relatively difficult to find an optimal block size, since the
-    // implementation is machine-dependent.
-    //https://books.google.ca/books?id=VQs_Ly4DYDMC&pg=PA130&lpg=PA130&dq=convolution+algorithm+optimal+block+size&source=bl&ots=jImfjKud-t&sig=SjLhgdAnfac0_6He7RBl0O-Snu8&hl=en&sa=X&ved=0ahUKEwj4y9367IDZAhWL24MKHV28AXoQ6AEIOzAD#v=onepage&q=convolution%20algorithm%20optimal%20block%20size&f=false
-    spec.maximumBlockSize = 2048;
-    spec.numChannels = (juce::uint32)ir.getNumChannels();
-    
-    // Must be called before loading the impulse response to provide to the convolution
-    // the maximumBufferSize to handle and the sample rate for optional resampling.
-    prepare(spec);
-    
-    // What if I just ram in the binary data?
-    const IRBank& irBank = IRBank::getInstance();
-    BinaryData::large_church_wav;
+    void Convolution::loadIR(AudioBlock ir)
+    {
+        juce::dsp::ProcessSpec spec;
+        spec.sampleRate = processor->getSampleRate();
+        
+        // If the block size is small, the overlap-add method requires a small amount of RAM
+        // at the expense of increasing computational load. If the block size is large, the
+        // overlap-add method is more efficient computationally, at the expense of the memory
+        // required. It is relatively difficult to find an optimal block size, since the
+        // implementation is machine-dependent.
+        //https://books.google.ca/books?id=VQs_Ly4DYDMC&pg=PA130&lpg=PA130&dq=convolution+algorithm+optimal+block+size&source=bl&ots=jImfjKud-t&sig=SjLhgdAnfac0_6He7RBl0O-Snu8&hl=en&sa=X&ved=0ahUKEwj4y9367IDZAhWL24MKHV28AXoQ6AEIOzAD#v=onepage&q=convolution%20algorithm%20optimal%20block%20size&f=false
+        spec.maximumBlockSize = 2048;
+        spec.numChannels = (juce::uint32)ir.getNumChannels();
+        
+        // Must be called before loading the impulse response to provide to the convolution
+        // the maximumBufferSize to handle and the sample rate for optional resampling.
+        prepare(spec);
+        
+        // What if I just ram in the binary data?
+        const IRBank& irBank = IRBank::getInstance();
+        BinaryData::large_church_wav;
 
-    loadImpulseResponse(BinaryData::large_church_wav, BinaryData::large_church_wavSize,
-        (Stereo)(ir.getNumChannels() == 2),
-        (Trim)false, (size_t)0, (Normalise)false);
-    
-//    copyAndLoadImpulseResponseFromBlock(ir, spec.sampleRate,
-//                                        ir.getNumChannels() == 2,
-//                                        false, false, 0);
-}
+        //void func
+        loadImpulseResponse(BinaryData::large_church_wav, BinaryData::large_church_wavSize,
+            (Stereo)(ir.getNumChannels() == 2),
+            (Trim)false, (size_t)0, (Normalise)false);
+        
+        //I took this one out. The above code replaces this issue
+//        copyAndLoadImpulseResponseFromBlock(ir, spec.sampleRate,
+//                                            ir.getNumChannels() == 2,
+//                                            false, false, 0);
+    }
 
 }

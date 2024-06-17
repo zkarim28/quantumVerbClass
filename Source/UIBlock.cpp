@@ -14,8 +14,8 @@ namespace reverb
     
     UIBlock::UIBlock(int numComponents, int numComponentsPerRow,
         const juce::String& componentName, const juce::String &labelText)
-        : numComponents(numComponents), numComponentsPerRow(numComponentsPerRow),
-        juce::GroupComponent(componentName, labelText)
+: juce::GroupComponent(componentName, labelText), numComponents(numComponents),
+numComponentsPerRow(numComponentsPerRow)
     {
         frame.setClickingTogglesState(false);
         frame.setInterceptsMouseClicks(false, true);

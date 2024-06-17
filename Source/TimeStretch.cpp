@@ -42,17 +42,6 @@
 //     * @param [in] params   Processor parameter tree
 //     * @param [in] blockId  ID of block whose paramters should be checked
 //     */
-//    void TimeStretch::updateParams(const juce::AudioProcessorValueTreeState& params,
-//                                   const juce::String& blockId)
-//    {
-//        float _irLengthS = getParam(params, blockId);
-//
-//        if (_irLengthS != irLengthS)
-//        {
-//            irLengthS = _irLengthS;
-//            mustExec = true;
-//        }
-//    }
 //
 //    //==============================================================================
 //    /**
@@ -124,29 +113,6 @@
 //
 //        return ir;
 //    }
-//
-//    //==============================================================================
-//    /**
-//     * @brief Copies given IR to internal representation and resizes it before processing
-//     *
-//     * @param [in,out] ir   IR to copy and resize
-//     */
-//    void TimeStretch::prepareIR(juce::AudioSampleBuffer& ir)
-//    {
-//        irOrig.makeCopyOf(ir);
-//        ir.setSize(ir.getNumChannels(), getOutputNumSamples());
-//    }
-//
-//    /**
-//     * @brief Returns expected number of samples after processing
-//     *
-//     * @param [in] inputNumSamples  Number of samples in input buffer
-//     */
-//    int TimeStretch::getOutputNumSamples()
-//    {
-//        return (int)std::ceil(irLengthS * sampleRate);
-//    }
-//
 //}
 
 
@@ -181,6 +147,7 @@ namespace reverb
             mustExec = true;
         }
     }
+
 
     AudioBlock TimeStretch::exec(AudioBlock ir)
     {
@@ -230,7 +197,8 @@ namespace reverb
 
     int TimeStretch::getOutputNumSamples()
     {
-        return static_cast<int>(std::ceil(irLengthS * sampleRate));
+//        return static_cast<int>(std::ceil(irLengthS * sampleRate));
+        return (int)std::ceil(irLengthS * sampleRate);
     }
 
 }

@@ -55,6 +55,11 @@ namespace reverb {
         
     }
 
+    Equalizer::~Equalizer(){
+        filterSet.clear();
+        EQGains.clear();
+    }
+
     //==============================================================================
     /**
     * @brief Read processor parameters and update block parameters as necessary

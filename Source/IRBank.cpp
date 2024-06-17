@@ -90,55 +90,55 @@ IRBank::IRBank()
 //}
 //}
 
-#include <juce_audio_formats/juce_audio_formats.h>
+    #include <juce_audio_formats/juce_audio_formats.h>
 
-void IRBank::build()
-{
-    // Check if buffers and sample rates are already filled
-    if (!buffersModifiable.empty() && !sampleRatesModifiable.empty())
+    void IRBank::build()
     {
-        return; // Exit if they are not empty
-    }
-    // Ensure buffers and sample rates have the same size, otherwise clear them
-    else if (buffersModifiable.size() != sampleRatesModifiable.size())
-    {
-        buffersModifiable.clear();
-        sampleRatesModifiable.clear();
-    }
-    
-    // Create an AudioFormatManager and register basic formats (WAV, AIFF, etc.)
-    juce::AudioFormatManager formatMgr;
-    formatMgr.registerBasicFormats();
-    
-    // Iterate over all named resources in BinaryData
-    for (int i = 0; i < BinaryData::namedResourceListSize; ++i)
-    {
-        int dataSize;
-        // Get the data for the current resource
-        const char* data = BinaryData::getNamedResource(BinaryData::namedResourceList[i], dataSize);
-        
-        // Create a MemoryInputStream for the resource data
-        auto dataStream = std::make_unique<juce::MemoryInputStream>(data, dataSize, false);
-        
-        // Create an AudioFormatReader using the format manager and the memory input stream
-        std::unique_ptr<juce::AudioFormatReader> reader(formatMgr.createReaderFor(std::move(dataStream)));
-        
-        // Check if the reader was successfully created
-        if (reader != nullptr)
+        // Check if buffers and sample rates are already filled
+        if (!buffersModifiable.empty() && !sampleRatesModifiable.empty())
         {
-            // Get number of channels and number of samples from the reader
-            int numChannels = reader->numChannels;
-            int numSamples = static_cast<int>(reader->lengthInSamples);
+            return; // Exit if they are not empty
+        }
+        // Ensure buffers and sample rates have the same size, otherwise clear them
+        else if (buffersModifiable.size() != sampleRatesModifiable.size())
+        {
+            buffersModifiable.clear();
+            sampleRatesModifiable.clear();
+        }
+        
+        // Create an AudioFormatManager and register basic formats (WAV, AIFF, etc.)
+        juce::AudioFormatManager formatMgr;
+        formatMgr.registerBasicFormats();
+        
+        // Iterate over all named resources in BinaryData
+        for (int i = 0; i < BinaryData::namedResourceListSize; ++i)
+        {
+            int dataSize;
+            // Get the data for the current resource
+            const char* data = BinaryData::getNamedResource(BinaryData::namedResourceList[i], dataSize);
             
-            // Allocate an AudioSampleBuffer with the appropriate number of channels and samples
-            buffersModifiable[BinaryData::namedResourceList[i]] = juce::AudioSampleBuffer(numChannels, numSamples);
+            // Create a MemoryInputStream for the resource data
+            auto dataStream = std::make_unique<juce::MemoryInputStream>(data, dataSize, false);
             
-            // Read the audio data into the buffer
-            reader->read(&buffersModifiable[BinaryData::namedResourceList[i]], 0, numSamples, 0, true, true);
+            // Create an AudioFormatReader using the format manager and the memory input stream
+            std::unique_ptr<juce::AudioFormatReader> reader(formatMgr.createReaderFor(std::move(dataStream)));
             
-            // Store the sample rate of the audio data
-            sampleRatesModifiable[BinaryData::namedResourceList[i]] = reader->sampleRate;
+            // Check if the reader was successfully created
+            if (reader != nullptr)
+            {
+                // Get number of channels and number of samples from the reader
+                int numChannels = reader->numChannels;
+                int numSamples = static_cast<int>(reader->lengthInSamples);
+                
+                // Allocate an AudioSampleBuffer with the appropriate number of channels and samples
+                buffersModifiable[BinaryData::namedResourceList[i]] = juce::AudioSampleBuffer(numChannels, numSamples);
+                
+                // Read the audio data into the buffer
+                reader->read(&buffersModifiable[BinaryData::namedResourceList[i]], 0, numSamples, 0, true, true);
+                
+                // Store the sample rate of the audio data
+                sampleRatesModifiable[BinaryData::namedResourceList[i]] = reader->sampleRate;
+            }
         }
     }
-}
 }

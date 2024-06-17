@@ -20,7 +20,7 @@ namespace reverb
     * is updated periodically and on notify in a separate thread.
     */
     UIGraphBlock::UIGraphBlock(AudioProcessor& processor)
-        : processor(processor), juce::GroupComponent("IR Graph", "waveform - impulse response")
+: juce::GroupComponent("IR Graph", "waveform - impulse response"), processor(processor)
     {
         graphThread.reset(new std::thread(&UIGraphBlock::updateGraph, this, 100));
     }
@@ -124,6 +124,7 @@ namespace reverb
             // Draw one sample per step
             for (int step = 0; step < numStepsInIR; step++)
             {
+                DBG(x);
                 irPlot.lineTo(x + step * xScale, yCentre + maxValues[step] * yScale);
             }
 
@@ -168,7 +169,7 @@ namespace reverb
                         return;
                     }
 
-                    // Wait until parameter processing is complete
+                    // Wait until parameteu processing is complete
                     std::lock_guard<std::mutex> paramsLock(gb->getProcessorInstance()->updatingParams);
 
                     // Update graph and send repaint signal

@@ -27,6 +27,7 @@ namespace reverb
         : Task(processor)
     {
     }
+PreDelay::~PreDelay(){};
 
     /**
      * @brief Updates parameters from processor parameter tree

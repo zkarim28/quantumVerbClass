@@ -13,7 +13,7 @@
 #include "PluginProcessor.h"
 
 #include <string.h>
-#define JUCE_MODAL_LOOPS_PERMITTED 1
+//#define JUCE_MODAL_LOOPS_PERMITTED 1
 
 namespace reverb
 {
@@ -29,13 +29,21 @@ namespace reverb
     * @param [in] processor    Pointer to main processor
     *
     */
-    AudioProcessorEditor::AudioProcessorEditor(AudioProcessor& p)
-        : juce::AudioProcessorEditor(&p), processor(p), parameters(p.parameters),
-          headerBlock(p), graphBlock(p), reverbBlock(p),
-          lowShelfFilterBlock(p, 0, "low-shelf filter"), peakLowFilterBlock(p, 1, "low-peak filter"),
-          peakHighFilterBlock(p, 2, "high-peak filter"), highShelfFilterBlock(p, 3, "high-shelf filter"),
-          filterBlocks({ &lowShelfFilterBlock, &peakLowFilterBlock, &peakHighFilterBlock, &highShelfFilterBlock })
-    {
+//    AudioProcessorEditor::AudioProcessorEditor(AudioProcessor& p)
+//        : juce::AudioProcessorEditor(&p), processor(p), parameters(p.parameters),
+//          headerBlock(p), graphBlock(p), reverbBlock(p),
+//          lowShelfFilterBlock(p, 0, "low-shelf filter"), peakLowFilterBlock(p, 1, "low-peak filter"),
+//          peakHighFilterBlock(p, 2, "high-peak filter"), highShelfFilterBlock(p, 3, "high-shelf filter"),
+//          filterBlocks({ &lowShelfFilterBlock, &peakLowFilterBlock, &peakHighFilterBlock, &highShelfFilterBlock })
+//    {
+
+AudioProcessorEditor::AudioProcessorEditor(AudioProcessor& p)
+    : juce::AudioProcessorEditor(&p), processor(p), parameters(p.parameters),
+      headerBlock(p), reverbBlock(p),
+      lowShelfFilterBlock(p, 0, "low-shelf filter"), peakLowFilterBlock(p, 1, "low-peak filter"),
+      peakHighFilterBlock(p, 2, "high-peak filter"), highShelfFilterBlock(p, 3, "high-shelf filter"),
+      filterBlocks({ &lowShelfFilterBlock, &peakLowFilterBlock, &peakHighFilterBlock, &highShelfFilterBlock })
+{
         // Make sure that before the constructor has finished, you've set the
         // editor's size to whatever you need it to be.
         setResizable(true, true);
@@ -45,10 +53,10 @@ namespace reverb
         setLookAndFeel(&lookAndFeel);
 
         // Display header block
-        addAndMakeVisible(headerBlock);
+//        addAndMakeVisible(headerBlock);
 
         // Display graph block
-        addAndMakeVisible(graphBlock);
+//        addAndMakeVisible(graphBlock);
 
         // Display reverb params block
         addAndMakeVisible(reverbBlock);
@@ -62,21 +70,21 @@ namespace reverb
         }
 
         // Set listeners for IR graph
-        headerBlock.irChoice.addListener(&graphBlock);
+//        headerBlock.irChoice.addListener(&graphBlock);
         headerBlock.irChoice.addListener(this);
 
-        reverbBlock.irLength.addListener(&graphBlock);
-        reverbBlock.preDelay.addListener(&graphBlock);
-        reverbBlock.irGain.addListener(&graphBlock);
-        reverbBlock.outGain.addListener(&graphBlock);
-        reverbBlock.wetRatio.addListener(&graphBlock);
+//        reverbBlock.irLength.addListener(&graphBlock);
+//        reverbBlock.preDelay.addListener(&graphBlock);
+//        reverbBlock.irGain.addListener(&graphBlock);
+//        reverbBlock.outGain.addListener(&graphBlock);
+//        reverbBlock.wetRatio.addListener(&graphBlock);
 
-        for (auto& filterBlock : filterBlocks)
-        {
-            filterBlock->freq.addListener(&graphBlock);
-            filterBlock->q.addListener(&graphBlock);
-            filterBlock->gain.addListener(&graphBlock);
-        }
+//        for (auto& filterBlock : filterBlocks)
+//        {
+//            filterBlock->freq.addListener(&graphBlock);
+//            filterBlock->q.addListener(&graphBlock);
+//            filterBlock->gain.addListener(&graphBlock);
+//        }
 
         // Calls resized when creating UI to position all the elements as if window was resized.
         this->resized();
@@ -130,7 +138,7 @@ namespace reverb
 
         graphBounds.reduce(padding, padding);
 
-        graphBlock.setBounds(graphBounds);
+//        graphBlock.setBounds(graphBounds);
 
         // Reverb block
         auto reverbBounds = bounds;
@@ -242,6 +250,7 @@ namespace reverb
 //    }
 
 
+    //her we manually write the file path until we actually find out how to make a menu
     void AudioProcessorEditor::menuCallback(int result, UIHeaderBlock* headerBlock)
     {
         if (headerBlock != nullptr && result != 0)

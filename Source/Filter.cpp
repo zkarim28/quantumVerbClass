@@ -34,6 +34,10 @@ namespace reverb
 
     }
 
+    Filter::~Filter(){
+        
+    }
+
     /**
      * @brief Updates parameters from processor parameter tree
      *
@@ -65,10 +69,6 @@ namespace reverb
             buildFilter();
             mustExec = true;
         }
-
-
-
-    
     }
 
     //==============================================================================

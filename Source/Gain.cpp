@@ -25,6 +25,7 @@ namespace reverb
         : Task(processor)
     {
     }
+    Gain::~Gain(){};
 
     /**
      * @brief Updates parameters from processor parameter tree
