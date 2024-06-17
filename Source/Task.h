@@ -56,6 +56,7 @@ namespace reverb
     public:
         //==============================================================================
         Task(juce::AudioProcessor * processor) : processor(processor) {}
+        virtual ~Task(){};
 
         //==============================================================================
         using Ptr = std::shared_ptr<Task>;

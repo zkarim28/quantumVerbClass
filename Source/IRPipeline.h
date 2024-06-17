@@ -35,6 +35,7 @@ namespace reverb
     public:
         //==============================================================================
         IRPipeline(juce::AudioProcessor * processor, int channelIdx);
+        virtual ~IRPipeline();
 
         //==============================================================================
         using Ptr = std::shared_ptr<IRPipeline>;

@@ -59,7 +59,7 @@ namespace reverb
         UIHeaderBlock headerBlock;
 
         //==============================================================================
-        UIGraphBlock graphBlock;
+//        UIGraphBlock graphBlock;
 
         //==============================================================================
         UIReverbBlock reverbBlock;

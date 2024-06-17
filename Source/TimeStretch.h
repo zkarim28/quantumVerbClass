@@ -24,7 +24,8 @@ namespace reverb
     public:
         //==============================================================================
         TimeStretch(juce::AudioProcessor * processor);
-        ~TimeStretch() = default;
+        virtual ~TimeStretch() = default;
+        
 
         //==============================================================================
         using Ptr = std::shared_ptr<TimeStretch>;

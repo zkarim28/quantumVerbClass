@@ -24,6 +24,7 @@ namespace reverb
     public:
         //==============================================================================
         PreDelay(juce::AudioProcessor * processor);
+        virtual ~PreDelay();
 
         //==============================================================================
         using Ptr = std::shared_ptr<PreDelay>;

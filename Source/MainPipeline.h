@@ -30,7 +30,7 @@ namespace reverb
         //==============================================================================
         MainPipeline(juce::AudioProcessor * processor);
 
-        ~MainPipeline() = default;
+        virtual ~MainPipeline() = default;
 
         //==============================================================================
         using Ptr = std::shared_ptr<MainPipeline>;

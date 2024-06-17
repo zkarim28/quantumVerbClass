@@ -50,6 +50,8 @@ namespace reverb {
 
         int getNumFilters();
         virtual bool needsToRun() const override;
+        
+        virtual ~Equalizer();
 
 
     protected:
